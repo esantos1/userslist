@@ -11,9 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Lista de usuários',
-        themeMode: ThemeMode.light,
         theme: lightTheme(),
-        darkTheme: darkTheme(),
         home: HomePage(),
       );
 }

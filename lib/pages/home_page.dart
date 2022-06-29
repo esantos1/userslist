@@ -8,6 +8,7 @@ import 'package:userslist/widgets/user_avatar.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  // transforma a future da requisição em um stream, que será passado no streambuilder abaixo
   Stream<List<Usuario>> getUsuarios() async* {
     yield await UsuariosApi.getUsuarios();
   }
@@ -31,6 +32,7 @@ class HomePage extends StatelessWidget {
         ),
       );
 
+  //cria um listview que recebe os dados vindos da requisicao
   Widget buildList(List<Usuario> items) => ListView.separated(
         padding: EdgeInsets.all(defaultPadding),
         itemBuilder: (context, index) {
@@ -42,6 +44,7 @@ class HomePage extends StatelessWidget {
         itemCount: items.length,
       );
 
+  //monta os itens da lista com o botão que vai pra tela do usuario
   Widget buildItem(BuildContext context, Usuario item) => ListTile(
         leading: UserAvatar(avatar: item.avatar),
         title: Text(item.nome),

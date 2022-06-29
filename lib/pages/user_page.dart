@@ -3,6 +3,7 @@ import 'package:userslist/constants.dart';
 import 'package:userslist/models/logradouro.dart';
 import 'package:userslist/models/usuario.dart';
 import 'package:userslist/widgets/user_avatar.dart';
+import 'package:userslist/widgets/user_widgets.dart';
 
 class UserPage extends StatefulWidget {
   final Usuario usuario;
@@ -30,7 +31,7 @@ class _UserPageState extends State<UserPage> {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Usuário'),
+          title: Text('Detalhes do usuário'),
           bottom: TabBar(
             tabs: tabs.map((item) => Tab(text: item.title)).toList(),
           ),
@@ -44,6 +45,7 @@ class _UserPageState extends State<UserPage> {
 
   //tab dados
   Widget mostradDados() => ListView(
+        controller: ScrollController(),
         padding: EdgeInsets.zero,
         children: [
           buildTop(),
@@ -83,6 +85,7 @@ class _UserPageState extends State<UserPage> {
             '${widget.usuario.idade} anos',
             style: TextStyle(fontSize: 16),
           ),
+          SizedBox(height: 36),
           buildSobre(),
         ],
       );
@@ -97,27 +100,11 @@ class _UserPageState extends State<UserPage> {
     final avatar = widget.usuario.avatar;
     final radius = profileHeight / 2;
 
-    return InkWell(
-      onTap: () {
-        String mesagem;
-
-        if (avatar == null) {
-          mesagem = 'Usuário sem foto';
-        } else {
-          mesagem = 'Usuário com foto';
-        }
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(mesagem)),
-        );
-      },
-      borderRadius: BorderRadius.circular(radius),
-      child: UserAvatar(avatar: avatar, radius: radius, iconSize: 40),
-    );
+    return UserAvatar(avatar: avatar, radius: radius, iconSize: 40);
   }
 
   Widget buildSobre() {
-    const spacing = defaultPadding - 4;
+    const spacing = 24.0;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(32.0, 0, 32.0, 32.0),
@@ -125,31 +112,26 @@ class _UserPageState extends State<UserPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: defaultPadding * 2),
           //---------------- dados pessoais ----------------
-          Text(
-            'Dados Pessoais',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-          ),
-          Divider(),
-          SizedBox(height: spacing),
-          buildDataText(
-            attribute: 'CPF',
+          Subtitle(label: 'Dados Pessoais'),
+
+          DataViewWidget(
+            label: 'CPF',
             value: widget.usuario.cpf,
           ),
           SizedBox(height: spacing),
-          buildDataText(
-            attribute: 'RG',
+          DataViewWidget(
+            label: 'RG',
             value: widget.usuario.rg,
           ),
           SizedBox(height: spacing),
-          buildDataText(
-            attribute: 'Data de nascimento',
+          DataViewWidget(
+            label: 'Data de nascimento',
             value: widget.usuario.dataNasc,
           ),
           SizedBox(height: spacing),
-          buildDataText(
-            attribute: 'Sexo',
+          DataViewWidget(
+            label: 'Sexo',
             value: widget.usuario.sexo,
           ),
 
@@ -157,24 +139,19 @@ class _UserPageState extends State<UserPage> {
 
           //---------------- contato ----------------
 
-          Text(
-            'Contato',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-          ),
-          Divider(),
-          SizedBox(height: spacing),
-          buildDataText(
-            attribute: 'Celular',
+          Subtitle(label: 'Contato'),
+          DataViewWidget(
+            label: 'Celular',
             value: widget.usuario.contato.celular,
           ),
           SizedBox(height: spacing),
-          buildDataText(
-            attribute: 'Email',
+          DataViewWidget(
+            label: 'Email',
             value: widget.usuario.contato.email,
           ),
           SizedBox(height: spacing),
-          buildDataText(
-            attribute: 'Telefone Fixo',
+          DataViewWidget(
+            label: 'Telefone Fixo',
             value: widget.usuario.contato.telefoneFixo ?? '-',
           ),
           SizedBox(height: spacing),
@@ -183,22 +160,12 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  Widget buildDataText({required String attribute, required String value}) =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(attribute, style: TextStyle(fontWeight: FontWeight.w700)),
-          SizedBox(height: 3.0),
-          Text(value, style: TextStyle(letterSpacing: 0.5)),
-        ],
-      );
-
   //tab endereço
   Widget mostrarEnderecos() {
     List<Logradouro> logradouro = widget.usuario.logradouro;
 
     return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
+      controller: ScrollController(),
       itemCount: logradouro.length,
       itemBuilder: (context, index) {
         final item = logradouro[index];
