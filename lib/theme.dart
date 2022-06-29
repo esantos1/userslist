@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme() => ThemeData(
-      colorScheme: ColorScheme.dark(
-        primary: Colors.black,
-        secondary: Colors.orange,
-      ),
+      colorScheme: ColorScheme.dark(primary: Colors.black),
       brightness: Brightness.dark,
       appBarTheme: AppBarTheme(color: Colors.white12),
       scaffoldBackgroundColor: Colors.grey[700],
@@ -20,10 +17,8 @@ ThemeData darkTheme() => ThemeData(
     );
 
 ThemeData lightTheme() => ThemeData(
-      colorScheme: ColorScheme.light(
-        primary: Colors.purple,
-        secondary: Colors.orange,
-      ),
+      primarySwatch: Colors.purple,
+      colorScheme: ColorScheme.light(primary: Colors.purple),
       brightness: Brightness.light,
       appBarTheme: AppBarTheme(color: Colors.purple),
       scaffoldBackgroundColor: Colors.grey[100],
