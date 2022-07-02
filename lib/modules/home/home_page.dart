@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:userslist/api/usuarios_api.dart';
 import 'package:userslist/constants.dart';
 import 'package:userslist/models/usuario.dart';
-import 'package:userslist/pages/user_page.dart';
-import 'package:userslist/widgets/user_avatar.dart';
+import 'package:userslist/modules/user/views/user_page.dart';
+import 'package:userslist/shared/widgets/user_avatar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
